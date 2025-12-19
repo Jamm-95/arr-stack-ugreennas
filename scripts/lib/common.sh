@@ -76,8 +76,12 @@ load_nas_config() {
         _NAS_HOST=$(grep -oE '[a-zA-Z0-9_-]+\.local' "$config_local" 2>/dev/null | head -1)
         # Extract just the hostname (without .local)
         _NAS_HOSTNAME=$(echo "$_NAS_HOST" | sed 's/\.local$//')
-        # Extract username from "SSH: user@host" pattern
+        # Extract username from "SSH: user@host" or table "SSH User | `user`" pattern
         _NAS_USER=$(grep -oE 'SSH:\s*[a-zA-Z0-9_-]+@' "$config_local" 2>/dev/null | sed 's/SSH:\s*//' | sed 's/@$//' | head -1)
+        # Fallback: try table format "SSH User | `username`"
+        if [[ -z "$_NAS_USER" ]]; then
+            _NAS_USER=$(grep -i 'SSH User' "$config_local" 2>/dev/null | grep -oE '`[a-zA-Z0-9_-]+`' | tr -d '`' | head -1)
+        fi
     fi
 
     # Default user if not found
