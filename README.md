@@ -10,7 +10,7 @@ Gluetun routes downloads through your VPN provider. Traefik manages SSL certific
 
 Developed and tested on Ugreen NAS (DXP4800+) but should work on Synology, QNAP, or any Docker host. Plex variant included; swap VPN providers via environment variables.
 
-> If this project helped you, consider giving it a ⭐
+> If this project helped you, help others find the repo by giving it a ⭐ or buy me a Ko-fi:
 >
 > <a href='https://ko-fi.com/X8X01NIXRB' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
@@ -142,4 +142,6 @@ Forked from [TheRealCodeVoyage/arr-stack-setup-with-pihole](https://github.com/T
 
 ---
 
-> If this project helped you, consider giving it a ⭐
+> If this project helped you, help others find the repo by giving it a ⭐ or buy me a Ko-fi:
+>
+> <a href='https://ko-fi.com/X8X01NIXRB' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
