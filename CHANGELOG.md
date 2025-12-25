@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3] - 2025-12-25
+
+### Changed
+- **Network subnet**: Changed from `192.168.100.0/24` to `172.20.0.0/24` to avoid conflicts with common LAN ranges
+- **Jellyfin discovery ports**: Added 7359/udp (client discovery) and 1900/udp (DLNA) for better app auto-detection
+- **duc.lan support**: duc now on traefik-proxy network (172.20.0.14) with .lan domain access
+
+### Documentation
+- **Prerequisites consolidated**: Simplified to just Hardware and Software/Services lists
+- **SETUP.md restructured**: External Access moved to end; steps renumbered for clearer flow
+- **Cloudflare Tunnel expanded**: No longer in collapsed section
+
+### Migration
+See [UPGRADING.md](docs/UPGRADING.md) for network migration instructions.
+
 ## [1.2] - 2025-12-17
 
 ### Documentation
