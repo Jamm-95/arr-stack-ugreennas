@@ -23,11 +23,27 @@ http:
         - web
       service: overseerr
 
+    # Optional: Redirect common typo (overseer -> overseerr)
+    overseer-typo:
+      rule: "Host(`overseer.yourdomain.com`)"
+      entryPoints:
+        - web
+      middlewares:
+        - overseer-redirect
+      service: overseerr
+
     wg:
       rule: "Host(`wg.yourdomain.com`)"
       entryPoints:
         - web
       service: wg
+
+  middlewares:
+    overseer-redirect:
+      redirectRegex:
+        regex: "^https?://overseer[.](.+)"
+        replacement: "https://overseerr.${1}"
+        permanent: true
 
   services:
     plex:
