@@ -44,6 +44,9 @@ Complete setup guide for the media automation stack. Works on any Docker host wi
 - Git (for deployment)
 - SSH access to your host
 - **VPN Subscription** - Any provider supported by [Gluetun](https://github.com/qdm12/gluetun-wiki/tree/main/setup/providers) (Surfshark, NordVPN, PIA, Mullvad, ProtonVPN, etc.)
+
+> **Already using Tailscale?** That's fine - Tailscale and this stack don't conflict. Tailscale gives you remote access to your NAS; Gluetun protects your download traffic. Different purposes.
+
 - **Usenet Provider** (optional, ~$4-6/month) - Frugal Usenet, Newshosting, Eweka, etc.
 - **Usenet Indexer** (optional) - NZBGeek (~$12/year) or DrunkenSlug (free tier)
 
@@ -75,7 +78,7 @@ Before diving in, decide how you'll access your media stack:
 | **qBittorrent** | Torrent client - downloads files (through VPN) | Core |
 | **Gluetun** | VPN container - routes download traffic through VPN so your ISP can't see what you download | Core |
 | **Pi-hole** | DNS server - enables `.lan` domains, blocks ads | + local DNS |
-| **Traefik** | Reverse proxy - routes `yourdomain.com` to services, handles HTTPS | + local DNS |
+| **Traefik** | Reverse proxy - enables `.lan` domains and `yourdomain.com` URLs | + local DNS |
 | **Cloudflared** | Tunnel to Cloudflare - secure remote access without port forwarding | + remote access |
 | **WireGuard** | VPN server - access your stack when away from home | + remote access |
 
@@ -695,10 +698,17 @@ The container uses a static IP with a fake MAC address (`TRAEFIK_LAN_MAC` in `.e
 
 </details>
 
-**Step 3: Deploy Traefik (on NAS via SSH)**
+**Step 3: Create Traefik config and deploy**
+
+> **Important:** You MUST create `traefik.yml` before deploying. If Docker can't find the file, it creates a directory instead, and Traefik fails to start.
+
 ```bash
 cd /volume1/docker/arr-stack
 
+# Create Traefik config from example (required)
+cp traefik/traefik.yml.example traefik/traefik.yml
+
+# Deploy Traefik
 docker compose -f docker-compose.traefik.yml up -d
 ```
 
