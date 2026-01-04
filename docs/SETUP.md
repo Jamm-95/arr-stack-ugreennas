@@ -244,12 +244,12 @@ sudo chmod 600 /path/to/arr-stack/traefik/acme.json
 │   └── movies/       # Movies (Radarr → Jellyfin)
 └── docker/
     └── arr-stack/
-        ├── traefik/              # User-edited config (bind mount)
+        ├── traefik/              # + local DNS / + remote access only
         │   ├── traefik.yml
-        │   ├── acme.json         # SSL certificates (chmod 600)
+        │   ├── acme.json         # SSL certs (chmod 600)
         │   └── dynamic/
         │       └── tls.yml
-        └── cloudflared/          # User-edited config (bind mount)
+        └── cloudflared/          # + remote access only
             └── config.yml
 ```
 
