@@ -101,13 +101,13 @@ Before diving in, decide how you'll access your media stack:
 ### Files You Need To Edit
 
 **Core:**
-- `.env` - VPN credentials, NAS IP, media paths, PUID/PGID
+- `.env` - Media path, timezone, PUID/PGID, VPN credentials
 
 **+ local DNS:**
-- No extra files to edit
+- `.env` - Add NAS IP, Pi-hole password, Traefik macvlan settings
 
 **+ remote access:**
-- `traefik/traefik.yml` - Replace `yourdomain.com` (3 places)
+- `.env` - Add domain, WireGuard password, Traefik dashboard auth
 - `traefik/dynamic/vpn-services.yml` - Replace `yourdomain.com`
 
 **Files you DON'T edit:**
