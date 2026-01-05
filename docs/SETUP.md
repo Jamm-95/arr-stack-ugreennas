@@ -263,7 +263,7 @@ sudo chown -R 1000:1000 /srv/docker/arr-stack
 
 ## Step 2: Edit Your Settings
 
-The stack needs your VPN credentials, media folder paths, and a few passwords. Everything goes in one `.env` file.
+The stack needs your media path, timezone, VPN credentials, and a few passwords. Everything goes in one `.env` file.
 
 > **Note:** From this point forward, all commands run **on your NAS via SSH**. If you closed your terminal, reconnect with `ssh your-username@nas-ip` and `cd /volume1/docker/arr-stack` (or your clone location). **UGOS users:** SSH may time out—re-enable in Control Panel → Terminal if needed.
 
@@ -284,7 +284,21 @@ MEDIA_ROOT=/share/Media       # QNAP
 MEDIA_ROOT=/srv/media         # Linux server
 ```
 
-### 2.3 Configure VPN
+### 2.3 Timezone and User IDs
+
+Set your timezone (used for scheduling, logs, and UI times):
+
+```bash
+TZ=Europe/London              # Find yours: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+```
+
+Verify PUID/PGID match your NAS user (usually 1000/1000):
+
+```bash
+id -u && id -g                # Run on NAS to check
+```
+
+### 2.4 Configure VPN
 
 **Why VPN for downloads?** Your ISP can see what you download via BitTorrent. A VPN encrypts this traffic and routes it through another server, so your ISP only sees "encrypted traffic to VPN provider".
 
@@ -344,7 +358,7 @@ Update `.env` with your provider's required variables.
 
 > **Don't want Pi-hole?** Change `DNS_ADDRESS=172.20.0.5` to your preferred public DNS (e.g., `1.1.1.1`, `8.8.8.8`) in `docker-compose.arr-stack.yml`.
 
-### 2.4 Create Passwords
+### 2.5 Create Passwords
 
 **Pi-hole Password:**
 
