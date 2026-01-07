@@ -86,10 +86,10 @@ services:
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
       - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
-      - SERVER_COUNTRIES=${VPN_COUNTRIES:-United Kingdom}
-      - TZ=${TZ:-Europe/London}
+      - SERVER_COUNTRIES=${VPN_COUNTRIES}
+      - TZ=${TZ}
       - DNS_ADDRESS=172.20.0.5
-      - FIREWALL_OUTBOUND_SUBNETS=${LAN_SUBNET:-192.168.0.0/24},172.20.0.0/24,10.8.1.0/24
+      - FIREWALL_OUTBOUND_SUBNETS=${LAN_SUBNET},172.20.0.0/24,10.8.1.0/24
     ports:
       # Ports for services using network_mode: "service:gluetun"
       # Enables direct local access without Traefik (http://NAS_IP:PORT)
@@ -122,15 +122,15 @@ services:
       gluetun:
         condition: service_healthy
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/London}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
       - WEBUI_PORT=8085
       - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     volumes:
       - qbittorrent-config:/config
-      - ${MEDIA_ROOT:-/volume1/Media}/downloads:/downloads
-      - ${MEDIA_ROOT:-/volume1/Media}:/media
+      - ${MEDIA_ROOT}/downloads:/downloads
+      - ${MEDIA_ROOT}:/media
     labels:
       - deunhealth.restart.on.unhealthy=true
     restart: always
@@ -153,13 +153,13 @@ services:
       gluetun:
         condition: service_healthy
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/London}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
       - sabnzbd-config:/config
-      - ${MEDIA_ROOT:-/volume1/Media}/downloads:/downloads
-      - ${MEDIA_ROOT:-/volume1/Media}/downloads/incomplete:/incomplete-downloads
+      - ${MEDIA_ROOT}/downloads:/downloads
+      - ${MEDIA_ROOT}/downloads/incomplete:/incomplete-downloads
     labels:
       - deunhealth.restart.on.unhealthy=true
     restart: always
@@ -182,13 +182,13 @@ services:
       gluetun:
         condition: service_healthy
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/London}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
       - sonarr-config:/config
-      - ${MEDIA_ROOT:-/volume1/Media}/tv:/tv
-      - ${MEDIA_ROOT:-/volume1/Media}/downloads:/downloads
+      - ${MEDIA_ROOT}/tv:/tv
+      - ${MEDIA_ROOT}/downloads:/downloads
     labels:
       - deunhealth.restart.on.unhealthy=true
     restart: always
@@ -211,9 +211,9 @@ services:
       gluetun:
         condition: service_healthy
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/London}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
       - prowlarr-config:/config
     labels:
@@ -238,13 +238,13 @@ services:
       gluetun:
         condition: service_healthy
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/London}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
       - radarr-config:/config
-      - ${MEDIA_ROOT:-/volume1/Media}/movies:/movies
-      - ${MEDIA_ROOT:-/volume1/Media}/downloads:/downloads
+      - ${MEDIA_ROOT}/movies:/movies
+      - ${MEDIA_ROOT}/downloads:/downloads
     labels:
       - deunhealth.restart.on.unhealthy=true
     restart: always
@@ -265,15 +265,15 @@ services:
     ports:
       - "32400:32400"  # Local network access
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/London}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
       - VERSION=docker
       - PLEX_CLAIM=${PLEX_CLAIM}  # Get from https://plex.tv/claim (expires in 4 mins)
     volumes:
       - plex-config:/config
-      - ${MEDIA_ROOT:-/volume1/Media}/movies:/media/movies:ro
-      - ${MEDIA_ROOT:-/volume1/Media}/tv:/media/tv:ro
+      - ${MEDIA_ROOT}/movies:/media/movies:ro
+      - ${MEDIA_ROOT}/tv:/media/tv:ro
     networks:
       arr-stack:
         ipv4_address: 172.20.0.4
@@ -298,8 +298,8 @@ services:
     image: pihole/pihole:latest
     container_name: pihole
     ports:
-      - "${NAS_IP:-0.0.0.0}:53:53/tcp"
-      - "${NAS_IP:-0.0.0.0}:53:53/udp"
+      - "${NAS_IP}:53:53/tcp"
+      - "${NAS_IP}:53:53/udp"
       - "8081:80"  # Web UI (local network access)
     networks:
       arr-stack:
@@ -307,7 +307,7 @@ services:
       vpn-net:
         ipv4_address: 10.8.1.200
     environment:
-      - TZ=${TZ:-Europe/London}
+      - TZ=${TZ}
       - FTLCONF_webserver_api_password=${PIHOLE_UI_PASS}
       - FTLCONF_dns_listeningMode=all
     volumes:
@@ -343,7 +343,7 @@ services:
       - PASSWORD_HASH=${WG_PASSWORD_HASH}
       - WG_DEFAULT_ADDRESS=10.8.0.x
       - WG_DEFAULT_DNS=10.8.1.200
-      - TZ=${TZ:-Europe/London}
+      - TZ=${TZ}
     volumes:
       - wireguard-easy-config:/etc/wireguard
     labels:
@@ -383,9 +383,9 @@ services:
     ports:
       - "5055:5055"  # Local network access
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/London}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     networks:
       arr-stack:
         ipv4_address: 172.20.0.8
@@ -415,16 +415,16 @@ services:
     ports:
       - "6767:6767"  # Local network access
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/London}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     networks:
       arr-stack:
         ipv4_address: 172.20.0.9
     volumes:
       - bazarr-config:/config
-      - ${MEDIA_ROOT:-/volume1/Media}/movies:/movies
-      - ${MEDIA_ROOT:-/volume1/Media}/tv:/tv
+      - ${MEDIA_ROOT}/movies:/movies
+      - ${MEDIA_ROOT}/tv:/tv
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=arr-stack"
@@ -445,7 +445,7 @@ services:
     container_name: flaresolverr
     environment:
       - LOG_LEVEL=info
-      - TZ=${TZ:-Europe/London}
+      - TZ=${TZ}
     networks:
       arr-stack:
         ipv4_address: 172.20.0.10

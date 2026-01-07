@@ -43,7 +43,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - TZ=${TZ:-Europe/London}
+      - TZ=${TZ}
     restart: always
     logging: *default-logging
     healthcheck:
@@ -64,7 +64,7 @@ services:
     ports:
       - "3001:3001"  # Local network access only
     environment:
-      - TZ=${TZ:-Europe/London}
+      - TZ=${TZ}
     networks:
       arr-stack:
         ipv4_address: 172.20.0.13  # For monitoring other containers
@@ -96,7 +96,7 @@ services:
     ports:
       - "8838:80"                      # Local network access only
     environment:
-      - TZ=${TZ:-Europe/London}
+      - TZ=${TZ}
       - SCHEDULE=0 4 * * *             # Re-index daily at 4am
     restart: always
     logging: *default-logging
@@ -109,12 +109,12 @@ services:
     build: ./scripts/qbit-scheduler
     container_name: qbit-scheduler
     environment:
-      - TZ=${TZ:-Europe/London}
-      - QBIT_HOST=${NAS_IP:-192.168.1.100}
+      - TZ=${TZ}
+      - QBIT_HOST=${NAS_IP}
       - QBIT_PORT=8085
-      - QBIT_USER=${QBIT_USER:-admin}
+      - QBIT_USER=${QBIT_USER}
       - QBIT_PASS=${QBIT_PASSWORD}
-      - PAUSE_HOUR=${QBIT_PAUSE_HOUR:-20}
-      - RESUME_HOUR=${QBIT_RESUME_HOUR:-6}
+      - PAUSE_HOUR=${QBIT_PAUSE_HOUR}
+      - RESUME_HOUR=${QBIT_RESUME_HOUR}
     restart: always
     logging: *default-logging
