@@ -1,6 +1,27 @@
 # Project Instructions for Claude Code
 
-This file provides context for Claude Code to assist with this project.
+## What This Project Is
+
+A Docker Compose media automation stack **that runs on a NAS**, not on this local machine. Users request TV shows/movies via Jellyseerr → Sonarr/Radarr search for them → qBittorrent/SABnzbd download them (through VPN) → media appears in Jellyfin ready to watch.
+
+**⚠️ IMPORTANT: This repo is the SOURCE CODE. The stack RUNS on a remote NAS.**
+- Local machine (where Claude Code runs): Development, editing config files
+- NAS (remote): Where Docker containers actually run
+- **All `docker` commands must be run via SSH to the NAS** - they won't work locally
+- See `config.local.md` for NAS hostname/IP and SSH credentials
+
+**Key services:**
+- **Jellyfin** - Media server (like Netflix for your own content)
+- **Jellyseerr** - Request portal for users to ask for shows/movies
+- **Sonarr/Radarr** - TV/Movie managers that find and organize downloads
+- **Prowlarr** - Indexer manager (finds download sources)
+- **qBittorrent** - Torrent client (downloads via VPN)
+- **SABnzbd** - Usenet client (downloads via VPN)
+- **Gluetun** - VPN gateway container (protects all download traffic)
+- **Pi-hole** - DNS server (enables `.lan` domains, blocks ads)
+- **Traefik** - Reverse proxy (routes `sonarr.lan` → correct container)
+
+**Networking:** Services behind VPN share Gluetun's network (`network_mode: service:gluetun`). They reach each other via `localhost`. Services outside the VPN reach them via `gluetun` hostname.
 
 ---
 
