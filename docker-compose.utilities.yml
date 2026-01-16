@@ -140,6 +140,12 @@ services:
     environment:
       - TZ=${TZ}
     logging: *default-logging
+    healthcheck:
+      test: ["CMD", "/beszel", "health", "--url", "http://localhost:8090"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   beszel-agent:
     image: henrygd/beszel-agent
@@ -152,3 +158,9 @@ services:
       - PORT=45876
       - KEY=${BESZEL_KEY}
     logging: *default-logging
+    healthcheck:
+      test: ["CMD", "/agent", "health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
