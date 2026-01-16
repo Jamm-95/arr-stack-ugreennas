@@ -741,6 +741,8 @@ docker exec pihole sed -i 's/etc_dnsmasq_d = false/etc_dnsmasq_d = true/' /etc/p
 docker compose -f docker-compose.arr-stack.yml restart pihole
 ```
 
+> **⚠️ Important:** Always add `.lan` domains to `02-local-dns.conf` — never use Pi-hole's web UI (Local DNS → DNS Records). The web UI writes to `pihole.toml` which can conflict with dnsmasq config and cause unpredictable DNS resolution.
+
 **Step 5: Set router DNS**
 
 Configure your router's DHCP to advertise your NAS IP as DNS server. All devices will then use Pi-hole for DNS.
@@ -1020,6 +1022,18 @@ Other *arr apps you can add to your Core stack:
    ```
 
 4. Redeploy: `docker compose -f docker-compose.arr-stack.yml up -d`
+
+5. **(+ local DNS)** Add `.lan` domain:
+   ```bash
+   # Add to pihole/02-local-dns.conf
+   echo "address=/lidarr.lan/TRAEFIK_LAN_IP" >> pihole/02-local-dns.conf
+
+   # Add Traefik route to traefik/dynamic/local-services.yml
+   # (router + service, see existing entries as template)
+
+   # Reload DNS
+   docker exec pihole pihole reloaddns
+   ```
 
 </details>
 
