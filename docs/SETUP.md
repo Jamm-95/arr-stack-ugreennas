@@ -435,7 +435,9 @@ Streams your media library to any device.
 <details>
 <summary><strong>Hardware Transcoding (Intel Quick Sync) - Recommended for Ugreen</strong></summary>
 
-Ugreen NAS (DXP4800+, etc.) have Intel CPUs with built-in GPUs. Enable this to use GPU-accelerated transcoding - reduces CPU usage from ~80% to ~20% when transcoding. Skip this section if your NAS doesn't have an Intel GPU.
+Ugreen NAS (DXP4800+, etc.) have Intel CPUs with built-in GPUs. Enable this to use GPU-accelerated transcoding - reduces CPU usage from ~80% to ~20% when transcoding.
+
+> **No Intel GPU?** Remove the `devices:` and `group_add:` lines (4 lines total) from the jellyfin service in `docker-compose.arr-stack.yml`, or Jellyfin won't start.
 
 **1. Find your render group ID:**
 ```bash
@@ -455,7 +457,7 @@ docker compose -f docker-compose.arr-stack.yml up -d jellyfin
 
 **4. Configure Jellyfin:** Dashboard → Playback → Transcoding
 
-![Jellyfin transcoding settings](images/jellyfin/jellyfin-transcoding2.png)
+![Jellyfin transcoding settings](images/jellyfin/jellyfin-transcoding.png)
 
 **Key settings:**
 - **Hardware acceleration:** Intel QuickSync (QSV)
