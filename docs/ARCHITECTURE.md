@@ -9,7 +9,7 @@ When someone requests a movie or TV show, here's what happens:
 ```
 ┌─────────────┐     ┌──────────────┐     ┌───────────┐     ┌─────────────┐     ┌──────────┐
 │ Jellyseerr  │────▶│ Sonarr/Radarr│────▶│ Prowlarr  │────▶│ qBittorrent │────▶│ Jellyfin │
-│ (request)   │     │ (manage)     │     │ (indexers)│     │ (download)  │     │ (watch)  │
+│ (request)   │     │ (manage)     │     │ (indexers)│     │   SABnzbd   │     │ (watch)  │
 └─────────────┘     └──────────────┘     └───────────┘     └─────────────┘     └──────────┘
       │                    │                   │                  │                  │
       │                    │                   │                  │                  │
@@ -18,10 +18,13 @@ When someone requests a movie or TV show, here's what happens:
 ```
 
 1. **Jellyseerr** - User requests a show or movie
-2. **Sonarr/Radarr** - Searches for releases, sends download links to qBittorrent/SABnzbd
-3. **Prowlarr** - Provides indexers to Sonarr/Radarr
-4. **qBittorrent/SABnzbd** - Downloads files via torrents or Usenet (through VPN)
-5. **Jellyfin** - Streams the completed files
+2. **Sonarr/Radarr** - Searches for releases, sends to download client
+3. **Prowlarr** - Provides indexers (torrent + Usenet) to Sonarr/Radarr
+4. **qBittorrent** - Downloads torrents (through VPN)
+5. **SABnzbd** - Downloads from Usenet (through VPN)
+6. **Jellyfin** - Streams the completed files
+
+> **Why both qBittorrent and SABnzbd?** Torrents are free but can be slow/unreliable. Usenet costs ~$5/month but is faster, more reliable, and has no ratio requirements. Most users configure both - Sonarr/Radarr will try Usenet first, fall back to torrents.
 
 ## VPN Protection
 
