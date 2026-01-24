@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Documentation
 - **Using tunnel for other services**: Added guide for routing additional subdomains through the same Cloudflare Tunnel (e.g., Home Assistant, blogs). Explains ingress rule ordering and DNS setup.
+- **Kodi + Jellyfin setup**: Added guide for using Kodi with Jellyfin add-on for proper Dolby Vision and TrueHD Atmos passthrough. Includes fix for "Unable to connect" error caused by Docker networking (PublishedServerUriBySubnet).
 
 ---
 

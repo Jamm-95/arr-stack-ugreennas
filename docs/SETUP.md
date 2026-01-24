@@ -465,6 +465,37 @@ If transcoding framerate is only ~1x (24-30 fps), hardware acceleration isn't wo
 
 </details>
 
+<details>
+<summary><strong>Using Kodi with Jellyfin</strong></summary>
+
+The Jellyfin Android TV app has limited passthrough support for Dolby Vision and TrueHD Atmos. For proper passthrough to your AV receiver, use **Kodi + Jellyfin add-on** instead.
+
+**Install Jellyfin add-on in Kodi:**
+1. Download repo: `https://kodi.jellyfin.org/repository.jellyfin.kodi.zip`
+2. Kodi → Settings → Add-ons → Install from zip file → select the zip
+3. Install from repository → Jellyfin Kodi Add-ons → Video add-ons → Jellyfin
+
+**Fix "Unable to connect" error:**
+
+Jellyfin in Docker reports its internal Docker IP to clients, which they can't reach. Fix by setting the published server URI:
+
+1. SSH to NAS and edit the network config:
+   ```bash
+   docker exec jellyfin sed -i 's|<PublishedServerUriBySubnet />|<PublishedServerUriBySubnet><string>0.0.0.0/0=http://NAS_IP:8096</string></PublishedServerUriBySubnet>|' /config/config/network.xml
+   ```
+   (Replace `NAS_IP` with your actual NAS IP)
+
+2. Restart Jellyfin:
+   ```bash
+   docker compose -f docker-compose.arr-stack.yml restart jellyfin
+   ```
+
+**Enable passthrough in Kodi:**
+- Settings → System → Audio → Allow passthrough: On
+- Enable: TrueHD, DTS-HD, E-AC3 capable receiver
+
+</details>
+
 ### 4.2 qBittorrent (Torrent Downloads)
 
 Receives download requests from Sonarr and Radarr and downloads files via torrents.
